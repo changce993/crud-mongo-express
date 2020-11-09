@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+    <title><%= title %></title>
+</head>
+<body>
+    <div class="container flex">
+        <div class="left bg-light-gray p-1">
+            <form action="/add" method="POST">
+                <h1 class="my-1">Add tasks</h1>
+
+                <input id="nameTask" class="p-1 my-05" type="text" name="title" placeholder="Task name">
+                <input class="p-1 my-05" type="text" name="description" placeholder="Description">
+                <input class="p-1 my-1 bg-primary text-white border-radius-8" type="submit" value="Add task">
+            </form>
+        </div>
+
+        <div class="right flex p-2">
+
+            <%for(var i = 0; i < tasks.length; i++){%>
+                <div class="card-task bg-light-gray p-1 border-radius-4">
+                    <h2><%= tasks[i].title %></h2>
+                    <div class="descriptionBody">
+                        <p><%= tasks[i].description %></p>
+                    </div>
+                    <div class="opciones flex">
+                        <a class="<%= tasks[i].status ? 'link' : 'no-link' %>" href="/turn/<%=tasks[i]._id%>">
+                            <%= tasks[i].status ? 'Done' : 'Not done' %>
+                        </a>
+                        
+                        <a class="link delete" href="/delete/<%=tasks[i]._id%>">Delete &times;</a>
+                    </div>
+                </div>
+            <%}%>
+
+        </div>
+
+        
+    </div>
+
+
+    <script>
+        document.querySelector('#nameTask').focus()
+        let deleteButton = document.querySelectorAll('.delete')
+
+        deleteButton.forEach(button => {
+            button.addEventListener('click', e => {
+                let response = confirm('¿Are you sure to delete?')
+
+            if(!response){
+                e.preventDefault()
+            }
+            })
+        })
+    </script>
+</body>
+</html>
